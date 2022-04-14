@@ -1,5 +1,5 @@
-import handlebars from 'handlebars';
 import fs from 'fs';
+import handlebars from 'handlebars';
 
 interface ITemplateVariable {
   [key: string]: string | number;
