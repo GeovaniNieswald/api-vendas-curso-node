@@ -1,17 +1,20 @@
 import 'reflect-metadata';
-import express, { NextFunction, Request, Response } from 'express';
-import 'express-async-errors';
-import cors from 'cors';
-import { errors } from 'celebrate';
-import routes from './routes';
+import 'dotenv/config';
+import uploadConfig from '@config/upload';
 import AppError from '@shared/errors/AppError';
 import '@shared/typeorm';
-import uploadConfig from '@config/upload';
+import { errors } from 'celebrate';
+import cors from 'cors';
+import express, { NextFunction, Request, Response } from 'express';
+import 'express-async-errors';
+import { pagination } from 'typeorm-pagination';
+import routes from './routes';
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(pagination);
 app.use('/files', express.static(uploadConfig.directory));
 app.use(routes);
 
