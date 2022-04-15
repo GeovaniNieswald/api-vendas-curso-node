@@ -11,12 +11,7 @@ interface IRequest {
 }
 
 class UpdateProductService {
-  public async execute({
-    id,
-    name,
-    price,
-    quantity,
-  }: IRequest): Promise<Product> {
+  public async execute({ id, name, price, quantity }: IRequest): Promise<Product> {
     const productsRepository = getCustomRepository(ProductsRepository);
 
     const product = await productsRepository.findOne(id);
