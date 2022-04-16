@@ -1,5 +1,5 @@
 import EtherealMail from '@config/mail/EtherealMail';
-import SESMail from '@config/mail/SesMail';
+import SESMail from '@config/mail/SESMail';
 import mailConfig from '@config/mail/mail';
 import AppError from '@shared/errors/AppError';
 import path from 'path';
