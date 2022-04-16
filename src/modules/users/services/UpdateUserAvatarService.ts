@@ -1,7 +1,7 @@
-import uploadConfig from '@config/upload';
+import uploadCondig from '@config/upload';
 import AppError from '@shared/errors/AppError';
-import fs from 'fs';
-import path from 'path';
+import DiskStorageProvider from '@shared/providers/storage-providers/DiskStorageProvider';
+import S3StorageProvider from '@shared/providers/storage-providers/S3StorageProvider';
 import { getCustomRepository } from 'typeorm';
 import User from '../typeorm/entities/User';
 import { UsersRepository } from '../typeorm/repositories/UsersRepository';
@@ -20,16 +20,21 @@ class UpdateUserAvatarService {
       throw new AppError('User not found.');
     }
 
-    if (user.avatar) {
-      const userAvatarFilePath = path.join(uploadConfig.directory, user.avatar);
-      const userAvatarFileExists = await fs.promises.stat(userAvatarFilePath);
+    let storageProvider: DiskStorageProvider | S3StorageProvider;
 
-      if (userAvatarFileExists) {
-        await fs.promises.unlink(userAvatarFilePath);
-      }
+    if (uploadCondig.driver === 'disk') {
+      storageProvider = new DiskStorageProvider();
+    } else {
+      storageProvider = new S3StorageProvider();
     }
 
-    user.avatar = avatarFilename;
+    if (user.avatar) {
+      await storageProvider.deleteFile(user.avatar);
+    }
+
+    const fileName = await storageProvider.saveFile(avatarFilename);
+
+    user.avatar = fileName;
 
     await usersRepository.save(user);
 
