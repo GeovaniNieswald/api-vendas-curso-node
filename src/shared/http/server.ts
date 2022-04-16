@@ -35,6 +35,8 @@ app.use((error: Error, request: Request, response: Response, nex: NextFunction) 
     });
   }
 
+  console.log(error);
+
   return response.status(500).json({
     stats: 'error',
     message: 'Internal server error',

@@ -1,6 +1,7 @@
-import mailConfig from '@config/mail/mail';
 import nodemailer from 'nodemailer';
+import aws from 'aws-sdk';
 import HandlebarsMailTemplate from './HandlebarsMailTemplate';
+import mailConfig from '@config/mail/mail';
 
 interface IMailContact {
   name: string;
@@ -23,25 +24,19 @@ interface iSendMail {
   templateData: IParseMailTemplate;
 }
 
-export default class EtherealMail {
+export default class SESMail {
   static async sendMail({ to, from, subject, templateData }: iSendMail): Promise<void> {
-    const account = await nodemailer.createTestAccount();
-
     const mailTemplate = new HandlebarsMailTemplate();
 
     const transporter = nodemailer.createTransport({
-      host: account.smtp.host,
-      port: account.smtp.port,
-      secure: account.smtp.secure,
-      auth: {
-        user: account.user,
-        pass: account.pass,
-      },
+      SES: new aws.SES({
+        apiVersion: '2010-12-01',
+      }),
     });
 
     const { email, name } = mailConfig.defaults.from;
 
-    const message = await transporter.sendMail({
+    await transporter.sendMail({
       from: {
         name: from?.name || name,
         address: from?.email || email,
@@ -53,8 +48,5 @@ export default class EtherealMail {
       subject,
       html: await mailTemplate.parse(templateData),
     });
-
-    console.log('Message sent: %s', message.messageId);
-    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(message));
   }
 }
