@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import uploadConfig from '@config/upload';
 import '@shared/container/index';
 import AppError from '@shared/errors/AppError';
@@ -7,7 +8,6 @@ import cors from 'cors';
 import 'dotenv/config';
 import express, { NextFunction, Request, Response } from 'express';
 import 'express-async-errors';
-import 'reflect-metadata';
 import { pagination } from 'typeorm-pagination';
 import rateLimiter from './middlewares/rateLimiter';
 import routes from './routes';

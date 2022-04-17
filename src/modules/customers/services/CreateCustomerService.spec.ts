@@ -1,5 +1,5 @@
-import AppError from '@shared/errors/AppError';
 import 'reflect-metadata';
+import AppError from '@shared/errors/AppError';
 import { ICreateCustomer } from '../domain/models/ICreateCustomer';
 import FakeCustomersRepository from '../domain/repositories/fakes/FakeCustomersRepository';
 import CreateCustomerService from './CreateCustomerService';

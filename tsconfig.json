@@ -15,14 +15,12 @@
     "typeRoots": ["@types", "./node_modules/@types"],
     "resolveJsonModule": true,
     "allowJs": true,
-    "outDir": "dist",
-    "noEmit": true,
+    "outDir": "build",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitAny": true,
     "strictPropertyInitialization": false,
     "skipLibCheck": true
-  },
-  "exclude": ["node_modules", "dist"]
+  }
 }
